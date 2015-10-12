@@ -132,7 +132,9 @@ func get(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 func main() {
 	flag.Parse()
 
-	os.Chdir(chdirTo)
+	if err := os.Chdir(chdirTo); err != nil {
+		log.Fatal(err)
+	}
 
 	router := httprouter.New()
 	router.GET("/:repo/os/:arch/:name", get)

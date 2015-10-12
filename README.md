@@ -98,10 +98,26 @@ In this example all the repositories the application will serve are under `/var/
 is a host-side mounted volume and the possibilities how they can be made visible there are endless.
 These are just few options:
 
-* Use [S3 storage driver](https://docs.docker.com/registry/storage-drivers/s3/)
+* Use S3 Docker volume plugin (imaginary)
 * Map it from the host file system and populate it through FTP, rsync, SSH, btsync etc. from another container
 * Use [S3 FUSE module](https://github.com/s3fs-fuse/s3fs-fuse) and manage security credentials and mounting in
 the host
+* Inherit from `crossdev/arch-repo-server`, integrate `s3fs` and mount it inside the container (this is implemented
+in the [arch-repo-server-s3](https://github.com/cross-dev/arch-repo-server-s3) repository)
+
+Let us look at the example of how to run docker container with S3 FUSE mount managed by the host. First comes the
+preparation:
+
+* Install [s3fs](https://github.com/s3fs-fuse/s3fs-fuse/releases)
+* Append `user_allow_other` to the `/etc/fuse.conf`
+* Save your S3 credentials to some file with `0600` permissions
+
+Mount and launch:
+
+```
+$ s3fs <bucket> <mount> -o passwd_file=/path/to/credentials,umask=0022,allow_other
+$ docker run -d -v <mount>:/var/lib/repos:ro -p 8000:41268 crossdev/arch-repo-server
+```
 
 ### Command line interface
 

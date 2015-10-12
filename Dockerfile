@@ -11,3 +11,5 @@ USER nobody
 WORKDIR /var/lib/repos
 
 ENTRYPOINT ["/go/src/github.com/cross-dev/arch-repo-server/bin/entrypoint"]
+
+ONBUILD USER root

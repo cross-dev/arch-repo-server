@@ -1,3 +1,5 @@
+[![Build Status](http://52.19.90.102/api/badges/cross-dev/arch-repo-server/status.svg)](http://52.19.90.102/cross-dev/arch-repo-server)
+
 This project is a part of ArchLinux package CI/CD solution.
 
 It is assumed that package builders are concurrent and simply publish the binary

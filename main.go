@@ -5,7 +5,7 @@ import (
 	"compress/gzip"
 	"flag"
 	"fmt"
-	"github.com/julienschmidt/httprouter"
+	"github.com/cross-dev/arch-repo-server/Godeps/_workspace/src/github.com/julienschmidt/httprouter"
 	"io"
 	"io/ioutil"
 	"log"
@@ -50,7 +50,7 @@ func tarFile(folderName string, info os.FileInfo, w *tar.Writer) error {
 	header.Name = path.Join(path.Base(folderName), header.Name)
 	err = w.WriteHeader(header)
 	if err != nil {
-		return err 
+		return err
 	}
 	file, err := os.Open(path.Join(folderName, info.Name()))
 	if err != nil {

@@ -1,0 +1,14 @@
+{
+	"ImportPath": "github.com/cross-dev/arch-repo-server",
+	"GoVersion": "go1.5.1",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/julienschmidt/httprouter",
+			"Comment": "v1.1-9-g2ba0f3d",
+			"Rev": "2ba0f3d499bb3c8d1f47107eb55a597b6619d388"
+		}
+	]
+}

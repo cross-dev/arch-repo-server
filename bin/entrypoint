@@ -1,0 +1,17 @@
+#!/bin/bash
+
+die() {
+    echo "$@" 1>&1
+    exit 1
+}
+
+if [ "$1" == "download" ]
+then
+    cat $(which arch-repo-server)
+elif [ "$1" == "install" ]
+then
+    [ -d /host ] || die "Provide host-side installation path via volume binding, e.g. -v /usr/local/bin:/host"
+    cp $(which arch-repo-server) /host/
+else
+    arch-repo-server "$@"
+fi

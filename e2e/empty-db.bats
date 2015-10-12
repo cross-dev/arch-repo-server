@@ -7,7 +7,7 @@ url="http://localhost:41268/repo/os/arch/db.db"
 setup() {
     local tmpdir=$(mktemp -d ${BATS_TMPDIR}/XXXXXXXX)
     mkdir -p ${tmpdir}/repo/os/arch/
-    $GOPATH/bin/arch-repo-server -C ${tmpdir} &>/dev/null & 
+    arch-repo-server -C ${tmpdir} &>/dev/null & 
 }
 
 @test 'Empty database returned' {

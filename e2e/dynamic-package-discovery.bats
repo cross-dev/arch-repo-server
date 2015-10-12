@@ -7,7 +7,7 @@ tmpdir=$(mktemp -d ${BATS_TMPDIR}/XXXXXXXX)
 
 setup() {
     mkdir -p ${tmpdir}/repo/os/arch/
-    $GOPATH/bin/arch-repo-server -C ${tmpdir} &>/dev/null & 
+    arch-repo-server -C ${tmpdir} &>/dev/null & 
 }
 
 @test 'Retrieve package added after server start' {

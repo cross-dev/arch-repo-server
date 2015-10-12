@@ -12,7 +12,7 @@ setup() {
     mkdir -p ${tmpdir}/repo/os/arch/game-1.0.0-1
     echo "include" >${tmpdir}/repo/os/arch/game-1.0.0-1/depends
     echo "include" >${tmpdir}/repo/os/arch/game-1.0.0-1/desc
-    $GOPATH/bin/arch-repo-server -C ${tmpdir} &>/dev/null & 
+    arch-repo-server -C ${tmpdir} &>/dev/null & 
 }
 
 @test 'Does not include to .db, if no depends file' {

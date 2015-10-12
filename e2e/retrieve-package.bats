@@ -8,7 +8,7 @@ setup() {
     local tmpdir=$(mktemp -d ${BATS_TMPDIR}/XXXXXXXX)
     mkdir -p ${tmpdir}/repo/os/arch/
     tar cJf ${tmpdir}/repo/os/arch/package.tar.xz --files-from /dev/null
-    $GOPATH/bin/arch-repo-server -C ${tmpdir} &>/dev/null & 
+    arch-repo-server -C ${tmpdir} &>/dev/null & 
 }
 
 @test 'Correct MIME type in the XZ response' {

@@ -12,10 +12,26 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"sort"
+	"strings"
 )
 
 var listenAt string
 var chdirTo string
+
+type byAge []os.FileInfo
+
+func (this byAge) Len() int {
+	return len(this)
+}
+
+func (this byAge) Swap(i, j int) {
+	this[i], this[j] = this[j], this[i]
+}
+
+func (this byAge) Less(i, j int) bool {
+	return this[i].ModTime().Sub(this[j].ModTime()) < 0
+}
 
 func init() {
 	flag.StringVar(&listenAt, "l", ":41268", "Interface and port to listen at")
@@ -63,6 +79,18 @@ func tarFile(folderName string, info os.FileInfo, w *tar.Writer) error {
 	return nil
 }
 
+type predicate func(os.FileInfo) bool
+
+func filter(infos []os.FileInfo, p predicate) []os.FileInfo {
+	var result []os.FileInfo
+	for i := range infos {
+		if p(infos[i]) {
+			result = append(result, infos[i])
+		}
+	}
+	return result
+}
+
 func getDb(w http.ResponseWriter, finalPath string) {
 	basePath := path.Dir(finalPath)
 	infos, err := ioutil.ReadDir(basePath)
@@ -70,12 +98,26 @@ func getDb(w http.ResponseWriter, finalPath string) {
 		http.Error(w, "Could not read folder", 500)
 		return
 	}
+	infos = filter(infos, func(info os.FileInfo) bool { return info.IsDir() })
+	sort.Sort(byAge(infos))
+	if len(infos) > 1 {
+		for i := range infos[:len(infos)-1] {
+			curr := strings.Split(infos[i].Name(), "-")
+			next := strings.Split(infos[i+1].Name(), "-")
+			log.Println(curr, next)
+			if strings.Join(curr[:len(curr)-2], "-") == strings.Join(next[:len(curr)-2], "-") {
+				// the list is sorted
+				infos[i] = nil
+			}
+		}
+		infos = filter(infos, func(info os.FileInfo) bool { return info != nil })
+	}
 	gzipped := gzip.NewWriter(w)
 	defer gzipped.Close()
 	tarred := tar.NewWriter(gzipped)
 	defer tarred.Close()
 	for i := range infos {
-		if !infos[i].IsDir() {
+		if infos[i] == nil {
 			continue
 		}
 		contentsPath := path.Join(basePath, infos[i].Name())

@@ -8,6 +8,7 @@ setup() {
     local tmpdir=$(mktemp -d ${BATS_TMPDIR}/XXXXXXXX)
     mkdir -p ${tmpdir}/repo/os/arch/
     arch-repo-server -C ${tmpdir} &>/dev/null & 
+    echo $tmpdir
 }
 
 @test 'Empty database returned' {

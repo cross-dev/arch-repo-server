@@ -16,6 +16,7 @@ setup() {
 }
 
 @test 'Include to .db files added after server start' {
+    echo $tmpdir
     mkdir -p ${tmpdir}/repo/os/arch/package-1.0.0-1
     echo "package-depends" >${tmpdir}/repo/os/arch/package-1.0.0-1/depends
     echo "package-desc" >${tmpdir}/repo/os/arch/package-1.0.0-1/desc

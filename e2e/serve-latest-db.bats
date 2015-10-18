@@ -13,6 +13,9 @@ setup() {
     mkdir -p ${tmpdir}/repo/os/arch/package-1.0.0-1
     echo "new" >${tmpdir}/repo/os/arch/package-1.0.0-1/depends
     echo "new" >${tmpdir}/repo/os/arch/package-1.0.0-1/desc
+    mkdir -p ${tmpdir}/repo/os/arch/package-a-1.0.0-1
+    echo "new" >${tmpdir}/repo/os/arch/package-a-1.0.0-1/depends
+    echo "new" >${tmpdir}/repo/os/arch/package-a-1.0.0-1/desc
     arch-repo-server -C ${tmpdir} &>/dev/null & 
 }
 
@@ -23,4 +26,5 @@ setup() {
     [ "$status" -eq "0" ]
     [ -d "${tmpdir}/package-1.0.0-1" ]
     [ ! -d "${tmpdir}/package-1.0.2-1" ]
+    [ -d "${tmpdir}/package-a-1.0.0-1" ]
 }

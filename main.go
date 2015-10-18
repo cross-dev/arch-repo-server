@@ -105,8 +105,10 @@ func getDb(w http.ResponseWriter, finalPath string) {
 			curr := strings.Split(infos[i].Name(), "-")
 			next := strings.Split(infos[i+1].Name(), "-")
 			log.Println(curr, next)
-			if strings.Join(curr[:len(curr)-2], "-") == strings.Join(next[:len(curr)-2], "-") {
+			log.Println("     ", strings.Join(curr[:len(curr)-2], "-"), strings.Join(next[:len(next)-2], "-"))
+			if strings.Join(curr[:len(curr)-2], "-") == strings.Join(next[:len(next)-2], "-") {
 				// the list is sorted
+				log.Println("nilling")
 				infos[i] = nil
 			}
 		}

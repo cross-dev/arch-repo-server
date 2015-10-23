@@ -2,7 +2,7 @@
 
 load ${BATS_TEST_DIRNAME}/lib.sh
 
-url="http://localhost:41268/repo/os/arch/db.db"
+url="http://localhost:41268/repo/os/arch/repo.db"
 
 setup() {
     local tmpdir=$(mktemp -d ${BATS_TMPDIR}/XXXXXXXX)
@@ -15,7 +15,7 @@ setup() {
     arch-repo-server -C ${tmpdir} &>/dev/null & 
 }
 
-@test 'Does not include to .db, if no depends file' {
+@test 'Does not include to .db, if no desc file' {
     local tmpdir=$(mktemp -d ${BATS_TMPDIR}/XXXXXXXX)
     run tar xzf <(curl -s ${url}) -C ${tmpdir}
     [ ! -e ${tmpdir}/package-1.0.0-1 ]

@@ -2,7 +2,7 @@
 
 load ${BATS_TEST_DIRNAME}/lib.sh
 
-url="http://localhost:41268/repo/os/arch/db.db"
+url="http://localhost:41268/repo/os/arch/repo.db"
 tmpdir=$(mktemp -d ${BATS_TMPDIR}/XXXXXXXX)
 
 setup() {

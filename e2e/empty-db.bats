@@ -2,11 +2,13 @@
 
 load ${BATS_TEST_DIRNAME}/lib.sh
 
-url="http://localhost:41268/repo/os/arch/db.db"
+url="http://localhost:41268/repo/os/arch/repo.db"
 
 setup() {
     local tmpdir=$(mktemp -d ${BATS_TMPDIR}/XXXXXXXX)
     mkdir -p ${tmpdir}/repo/os/arch/
+    mkdir -p ${tmpdir}/another/os/arch/
+    mkdir -p ${tmpdir}/third/os/arch/
     arch-repo-server -C ${tmpdir} &>/dev/null & 
     echo $tmpdir
 }
@@ -37,11 +39,14 @@ setup() {
     [ "$output" == "" ]
 }
 
-@test 'Database name does not matter' {
-    run get_http_status "http://localhost:41268/repo/os/arch/one.db"
+@test 'Database name matters' {
+    run get_http_status "http://localhost:41268/repo/os/arch/repo.db"
     [ "$status" -eq "0" ]
     [ "$output" == "200" ]
-    run get_http_status "http://localhost:41268/repo/os/arch/two.db"
+    run get_http_status "http://localhost:41268/another/os/arch/another.db"
+    [ "$status" -eq "0" ]
+    [ "$output" == "200" ]
+    run get_http_status "http://localhost:41268/third/os/arch/third.db"
     [ "$status" -eq "0" ]
     [ "$output" == "200" ]
 }

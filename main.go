@@ -167,7 +167,11 @@ func get(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	if nameExt == ".xz" {
 		getXz(w, finalPath)
 	} else if nameExt == ".db" {
-		getDb(w, finalPath)
+		if fmt.Sprint(repo, ".db") == name {
+			getDb(w, finalPath)
+		} else {
+			http.Error(w, "Database not available", 404)
+		}
 	} else {
 		http.Error(w, "Name not found", 404)
 	}

@@ -25,3 +25,15 @@ setup() {
     [ "$status" -eq "0" ]
     [ "$output" == "404" ]
 }
+
+@test '404 to incorrect database extension' {
+    run get_http_status "http://localhost:41268/repo/os/arch/repo.yyy"
+    [ "$status" -eq "0" ]
+    [ "$output" == "404" ]
+}
+
+@test '404 to incorrect database name' {
+    run get_http_status "http://localhost:41268/repo/os/arch/rrepo.db"
+    [ "$status" -eq "0" ]
+    [ "$output" == "404" ]
+}
